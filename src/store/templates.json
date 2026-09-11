@@ -1,0 +1,22 @@
+[
+  {
+    "id": "9f1c2d34-otp1-4e5f-8a9b-1c2d3e4f5a6b",
+    "name": "otp_verification",
+    "language": "id",
+    "body": "Hai {{1}}!\n\nKode verifikasi OTP kamu adalah:\n*{{2}}*\n\nJangan bagikan kode ini kepada siapa pun, termasuk pihak yang mengaku dari tim kami. Kode berlaku selama 5 menit.\n\nJika kamu tidak meminta kode ini, abaikan pesan ini.",
+    "status": "APPROVED",
+    "category": "AUTHENTICATION",
+    "variables": ["1", "2"],
+    "createdAt": "2026-09-11T00:00:00.000Z"
+  },
+  {
+    "id": "3a7b8c9d-ntf0-4e2f-9c1d-5e6f7a8b9c0d",
+    "name": "order_notification",
+    "language": "id",
+    "body": "Halo {{1}}, pesanan kamu dengan nomor *{{2}}* sudah kami terima dan sedang diproses. Kami akan mengabari kamu saat ada pembaruan. Terima kasih!",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "variables": ["1", "2"],
+    "createdAt": "2026-09-11T00:00:00.000Z"
+  }
+]
