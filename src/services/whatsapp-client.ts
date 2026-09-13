@@ -5,6 +5,7 @@ import makeWASocket, {
   type WASocket,
 } from "@whiskeysockets/baileys";
 import { mkdir, rm } from "node:fs/promises";
+import { normalizePhone } from "../utils/phone.ts";
 import qrcode from "qrcode-terminal";
 
 const SESSION_DIR = process.env.SESSION_DIR ?? "./session";
@@ -96,9 +97,7 @@ export class WhatsappClient {
    * e.g. "08123456789" -> "628123456789@s.whatsapp.net"
    */
   private toJid(phoneNumber: string): string {
-    const digits = phoneNumber.replace(/\D/g, "");
-    const normalized = digits.startsWith("0") ? `62${digits.slice(1)}` : digits;
-    return `${normalized}@s.whatsapp.net`;
+    return `${normalizePhone(phoneNumber)}@s.whatsapp.net`;
   }
 
   /** Unpair the device: server logout, clear session files, reconnect (fresh QR). */

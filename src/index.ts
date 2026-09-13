@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { serveStatic } from "hono/bun";
 import { TemplateStore } from "./store/template-store.ts";
 import { MessageStore } from "./store/message-store.ts";
+import { AllowlistStore } from "./store/allowlist-store.ts";
 import { WhatsappClient } from "./services/whatsapp-client.ts";
 import { createWhatsappRoutes } from "./routes/whatsapp.routes.ts";
 import { createAuthRoutes } from "./routes/auth.routes.ts";
@@ -21,6 +22,7 @@ const templates = new TemplateStore();
 await templates.load();
 
 const messages = new MessageStore();
+const allowlist = new AllowlistStore();
 
 const whatsapp = new WhatsappClient();
 await whatsapp.start();
@@ -34,12 +36,12 @@ app.get("/v1/health", (c) =>
 
 app.route(
   "/v1/whatsapp",
-  createWhatsappRoutes({ templates, whatsapp, messages }),
+  createWhatsappRoutes({ templates, whatsapp, messages, allowlist }),
 );
 
 // --- Dashboard API (cookie-authenticated) ---
 app.route("/api/auth", createAuthRoutes());
-app.route("/api", createDashboardRoutes({ templates, messages, whatsapp }));
+app.route("/api", createDashboardRoutes({ templates, messages, allowlist, whatsapp }));
 
 // --- Dashboard SPA ---
 if (existsSync(DASHBOARD_DIST)) {

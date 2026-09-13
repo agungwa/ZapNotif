@@ -7,6 +7,7 @@ const NAV = [
   { to: "/templates", label: "Templates", icon: "▤" },
   { to: "/composer", label: "Composer", icon: "✦" },
   { to: "/session", label: "Session", icon: "◉" },
+  { to: "/allowlist", label: "Allowlist", icon: "⛨" },
   { to: "/messages", label: "Messages", icon: "≡" },
 ];
 

@@ -5,6 +5,7 @@ import type { ApiError, SendTemplateResponse, TemplateDetailResponse, WhatsappTe
 import type { TemplateStore } from "../store/template-store.ts";
 import { renderTemplateBody } from "../store/template-store.ts";
 import type { MessageStore } from "../store/message-store.ts";
+import type { AllowlistStore } from "../store/allowlist-store.ts";
 import type { WhatsappClient } from "../services/whatsapp-client.ts";
 import { requireApiKey } from "../middleware/auth.ts";
 
@@ -28,6 +29,7 @@ export interface WhatsappRouteDeps {
   templates: TemplateStore;
   whatsapp: WhatsappClient;
   messages: MessageStore;
+  allowlist: AllowlistStore;
 }
 
 export function createWhatsappRoutes(deps: WhatsappRouteDeps) {
@@ -113,6 +115,24 @@ export function createWhatsappRoutes(deps: WhatsappRouteDeps) {
       }
 
       const text = renderTemplateBody(template.body, params);
+
+      // Allowlist gate: when numbers are registered, only they may receive
+      if (!deps.allowlist.isAllowed(payload.recipientPhoneNumber)) {
+        logMessage(deps.messages, {
+          requestId,
+          templateId: template.id,
+          templateName: template.name,
+          recipientPhone: payload.recipientPhoneNumber,
+          recipientName: payload.recipientName ?? null,
+          providerMessageId: null,
+          status: "failed",
+          error: "Blocked: recipient not in allowlist",
+        });
+        return c.json<ApiError>(
+          { message: "Recipient phone number is not allowed", requestId },
+          403,
+        );
+      }
 
       if (!deps.whatsapp.isConnected()) {
         return c.json<ApiError>({ message: "External service error", requestId }, 503);

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { authMiddleware, type SessionVars } from "../middleware/auth.ts";
 import type { TemplateStore } from "../store/template-store.ts";
 import type { MessageStore } from "../store/message-store.ts";
+import type { AllowlistStore } from "../store/allowlist-store.ts";
 import type { WhatsappClient } from "../services/whatsapp-client.ts";
 import type { ApiError } from "../types.ts";
 
@@ -22,9 +23,15 @@ const listMessagesSchema = z.object({
   status: z.enum(["sent", "failed"]).optional(),
 });
 
+const allowlistAddSchema = z.object({
+  phone: z.string().min(8),
+  label: z.string().optional(),
+});
+
 export function createDashboardRoutes(deps: {
   templates: TemplateStore;
   messages: MessageStore;
+  allowlist: AllowlistStore;
   whatsapp: WhatsappClient;
 }) {
   const app = new Hono<{ Variables: SessionVars }>();
@@ -88,6 +95,30 @@ export function createDashboardRoutes(deps: {
     const removed = await deps.templates.remove(c.req.param("id"));
     if (!removed) {
       return c.json<ApiError>({ message: "Template not found", requestId: crypto.randomUUID() }, 404);
+    }
+    return c.body(null, 204);
+  });
+
+  // GET /api/allowlist — list allowed recipient numbers
+  app.get("/allowlist", (c) => {
+    return c.json({ items: deps.allowlist.list(), size: deps.allowlist.size() });
+  });
+
+  // POST /api/allowlist — add a number
+  app.post("/allowlist", zValidator("json", allowlistAddSchema, (result, c) => {
+    if (!result.success) {
+      return c.json<ApiError>({ message: "phone is required", requestId: crypto.randomUUID() }, 400);
+    }
+  }), (c) => {
+    const { phone, label } = c.req.valid("json");
+    return c.json(deps.allowlist.add(phone, label ?? null), 201);
+  });
+
+  // DELETE /api/allowlist/:phone
+  app.delete("/allowlist/:phone", (c) => {
+    const removed = deps.allowlist.remove(c.req.param("phone"));
+    if (!removed) {
+      return c.json<ApiError>({ message: "Number not found", requestId: crypto.randomUUID() }, 404);
     }
     return c.body(null, 204);
   });

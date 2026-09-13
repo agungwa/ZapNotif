@@ -6,6 +6,7 @@ import { OverviewPage } from "./pages/OverviewPage";
 import { TemplatesPage } from "./pages/TemplatesPage";
 import { ComposerPage } from "./pages/ComposerPage";
 import { SessionPage } from "./pages/SessionPage";
+import { AllowlistPage } from "./pages/AllowlistPage";
 import { MessagesPage } from "./pages/MessagesPage";
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/templates" element={<TemplatesPage />} />
           <Route path="/composer" element={<ComposerPage />} />
           <Route path="/session" element={<SessionPage />} />
+          <Route path="/allowlist" element={<AllowlistPage />} />
           <Route path="/messages" element={<MessagesPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
