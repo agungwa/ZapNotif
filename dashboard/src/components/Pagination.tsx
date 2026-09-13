@@ -9,7 +9,7 @@ export function Pagination({ page, pageSize, total, onChange }: PaginationProps)
   const pages = Math.max(1, Math.ceil(total / pageSize));
   if (total === 0) return null;
   return (
-    <div className="flex items-center justify-between px-1 py-3 font-mono text-xs text-ink-400">
+    <div className="flex items-center justify-between px-1 py-3 font-mono text-xs text-ink-600 dark:text-ink-300">
       <span>
         {total} record{total === 1 ? "" : "s"} — page {page}/{pages}
       </span>

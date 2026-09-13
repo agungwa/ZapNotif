@@ -27,7 +27,7 @@ export function OverviewPage() {
     return <p className="border border-danger/40 bg-danger/10 px-4 py-3 font-mono text-sm text-danger">⚠ {error}</p>;
   }
   if (!stats || !recent) {
-    return <p className="pulse-dot font-display text-xs uppercase tracking-[0.3em] text-ink-400">Loading telemetry…</p>;
+    return <p className="pulse-dot font-display text-xs uppercase tracking-[0.3em] text-ink-600 dark:text-ink-300">Loading telemetry…</p>;
   }
 
   return (
@@ -52,12 +52,12 @@ export function OverviewPage() {
         <div className="panel p-5">
           <div className="mb-3 flex items-center justify-between">
             <p className="label">Recent dispatches</p>
-            <Link to="/messages" className="font-mono text-[11px] text-ink-400 hover:text-signal">
+            <Link to="/messages" className="font-mono text-[11px] text-ink-600 dark:text-ink-300 hover:text-signal">
               view all →
             </Link>
           </div>
           {recent.items.length === 0 ? (
-            <p className="py-8 text-center font-mono text-xs text-ink-400">
+            <p className="py-8 text-center font-mono text-xs text-ink-600 dark:text-ink-300">
               No messages yet — try the <Link to="/composer" className="text-signal underline">composer</Link>
             </p>
           ) : (
@@ -74,9 +74,9 @@ export function OverviewPage() {
                 {recent.items.map((m) => (
                   <tr key={m.id}>
                     <td>{m.recipient_phone}</td>
-                    <td className="max-w-[10rem] truncate text-ink-400">{m.template_name ?? "—"}</td>
+                    <td className="max-w-[10rem] truncate text-ink-600 dark:text-ink-300">{m.template_name ?? "—"}</td>
                     <td><StatusBadge status={m.status} /></td>
-                    <td className="text-ink-400">{new Date(m.created_at).toLocaleString("id-ID", { hour12: false })}</td>
+                    <td className="text-ink-600 dark:text-ink-300">{new Date(m.created_at).toLocaleString("id-ID", { hour12: false })}</td>
                   </tr>
                 ))}
               </tbody>

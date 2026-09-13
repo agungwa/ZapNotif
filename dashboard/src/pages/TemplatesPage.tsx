@@ -97,7 +97,7 @@ export function TemplatesPage() {
     return <p className="border border-danger/40 bg-danger/10 px-4 py-3 font-mono text-sm text-danger">⚠ {error}</p>;
   }
   if (!templates) {
-    return <p className="pulse-dot font-display text-xs uppercase tracking-[0.3em] text-ink-400">Loading templates…</p>;
+    return <p className="pulse-dot font-display text-xs uppercase tracking-[0.3em] text-ink-600 dark:text-ink-300">Loading templates…</p>;
   }
 
   const editingVars = editing ? [...editing.form.body.matchAll(/\{\{(\d+)\}\}/g)].map((m) => m[1]!) : [];
@@ -131,9 +131,9 @@ export function TemplatesPage() {
                 <td className="font-semibold text-ink-900 dark:text-ink-100">{t.name}</td>
                 <td>{t.language}</td>
                 <td><Badge tone={categoryTone(t.category)}>{t.category.toLowerCase()}</Badge></td>
-                <td className="text-ink-400">{t.variables.length > 0 ? t.variables.map((v) => `{{${v}}}`).join(" ") : "—"}</td>
+                <td className="text-ink-600 dark:text-ink-300">{t.variables.length > 0 ? t.variables.map((v) => `{{${v}}}`).join(" ") : "—"}</td>
                 <td><Badge tone={t.status === "APPROVED" ? "signal" : "amber"}>{t.status.toLowerCase()}</Badge></td>
-                <td className="text-ink-400">{t.createdAt.slice(0, 10)}</td>
+                <td className="text-ink-600 dark:text-ink-300">{t.createdAt.slice(0, 10)}</td>
                 <td className="text-right">
                   <button className="btn-ghost !px-2 !py-1" onClick={() => openEdit(t)}>edit</button>
                   <button className="btn-danger !px-2 !py-1 ml-2" onClick={() => setDeleting(t)}>del</button>
@@ -142,7 +142,7 @@ export function TemplatesPage() {
             ))}
             {templates.length === 0 && (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-ink-400">No templates — create one above</td>
+                <td colSpan={7} className="py-8 text-center text-ink-600 dark:text-ink-300">No templates — create one above</td>
               </tr>
             )}
           </tbody>

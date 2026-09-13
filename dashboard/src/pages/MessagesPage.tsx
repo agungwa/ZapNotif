@@ -62,11 +62,11 @@ export function MessagesPage() {
 
       <div className="panel rise overflow-x-auto">
         {data === null ? (
-          <p className="pulse-dot p-8 text-center font-display text-xs uppercase tracking-[0.3em] text-ink-400">
+          <p className="pulse-dot p-8 text-center font-display text-xs uppercase tracking-[0.3em] text-ink-600 dark:text-ink-300">
             Loading log…
           </p>
         ) : data.items.length === 0 ? (
-          <p className="p-8 text-center font-mono text-sm text-ink-400">
+          <p className="p-8 text-center font-mono text-sm text-ink-600 dark:text-ink-300">
             {debouncedPhone || status ? "No records match the filter." : "No messages sent yet."}
           </p>
         ) : (
@@ -85,16 +85,16 @@ export function MessagesPage() {
               <tbody>
                 {data.items.map((m) => (
                   <tr key={m.id}>
-                    <td className="whitespace-nowrap text-ink-400">
+                    <td className="whitespace-nowrap text-ink-600 dark:text-ink-300">
                       {new Date(m.created_at).toLocaleString("id-ID", { hour12: false })}
                     </td>
                     <td>
                       {m.recipient_phone}
-                      {m.recipient_name && <span className="block text-[11px] text-ink-400">{m.recipient_name}</span>}
+                      {m.recipient_name && <span className="block text-[11px] text-ink-600 dark:text-ink-300">{m.recipient_name}</span>}
                     </td>
-                    <td className="text-ink-400">{m.template_name ?? "—"}</td>
+                    <td className="text-ink-600 dark:text-ink-300">{m.template_name ?? "—"}</td>
                     <td><StatusBadge status={m.status} /></td>
-                    <td className="max-w-[9rem] truncate text-ink-400">{m.provider_message_id ?? "—"}</td>
+                    <td className="max-w-[9rem] truncate text-ink-600 dark:text-ink-300">{m.provider_message_id ?? "—"}</td>
                     <td className="max-w-[12rem] truncate text-danger" title={m.error ?? undefined}>
                       {m.error ?? "—"}
                     </td>

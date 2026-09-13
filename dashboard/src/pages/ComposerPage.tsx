@@ -56,7 +56,7 @@ export function ComposerPage() {
   }
 
   if (!templates) {
-    return <p className="pulse-dot font-display text-xs uppercase tracking-[0.3em] text-ink-400">Loading composer…</p>;
+    return <p className="pulse-dot font-display text-xs uppercase tracking-[0.3em] text-ink-600 dark:text-ink-300">Loading composer…</p>;
   }
 
   return (
@@ -67,7 +67,7 @@ export function ComposerPage() {
       </div>
 
       {templates.length === 0 ? (
-        <p className="panel p-8 text-center font-mono text-sm text-ink-400">
+        <p className="panel p-8 text-center font-mono text-sm text-ink-600 dark:text-ink-300">
           No templates yet — create one on the <Link className="text-signal underline" to="/templates">templates page</Link>
         </p>
       ) : (
@@ -101,7 +101,7 @@ export function ComposerPage() {
                 <div className="grid gap-2 sm:grid-cols-2">
                   {template.variables.map((v) => (
                     <div key={v}>
-                      <span className="mb-1 block font-mono text-[10px] text-ink-400">{"{{" + v + "}}"}</span>
+                      <span className="mb-1 block font-mono text-[10px] text-ink-600 dark:text-ink-300">{"{{" + v + "}}"}</span>
                       <input
                         className="input"
                         value={params[v] ?? ""}
@@ -120,7 +120,7 @@ export function ComposerPage() {
             )}
 
             <div className="flex items-center justify-between pt-2">
-              <p className="font-mono text-[10px] text-ink-400">
+              <p className="font-mono text-[10px] text-ink-600 dark:text-ink-300">
                 {status !== "connected" && <span className="text-amber">session not connected — send will fail</span>}
               </p>
               <button
@@ -136,7 +136,7 @@ export function ComposerPage() {
           <div className="space-y-4">
             {template && <TemplatePreview body={template.body} params={params} />}
             {template && (
-              <div className="panel p-4 font-mono text-[11px] leading-relaxed text-ink-400">
+              <div className="panel p-4 font-mono text-[11px] leading-relaxed text-ink-600 dark:text-ink-300">
                 <p className="label mb-2">Payload</p>
                 <pre className="overflow-x-auto whitespace-pre-wrap">{JSON.stringify(
                   {

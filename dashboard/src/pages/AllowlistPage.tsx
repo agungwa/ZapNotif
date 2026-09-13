@@ -65,7 +65,7 @@ export function AllowlistPage() {
         </Badge>
       </div>
 
-      <div className="panel rise border-l-4 border-l-amber p-4 font-mono text-xs leading-relaxed text-ink-400">
+      <div className="panel rise border-l-4 border-l-amber p-4 font-mono text-xs leading-relaxed text-ink-600 dark:text-ink-300">
         When the list is <span className="text-amber">empty</span>, messages can be sent to any number.
         Once you add at least one number, sending is restricted to the listed numbers only —
         blocked attempts are logged on the Messages page.
@@ -89,11 +89,11 @@ export function AllowlistPage() {
 
       <div className="panel rise rise-2 overflow-x-auto">
         {data === null ? (
-          <p className="pulse-dot p-8 text-center font-display text-xs uppercase tracking-[0.3em] text-ink-400">
+          <p className="pulse-dot p-8 text-center font-display text-xs uppercase tracking-[0.3em] text-ink-600 dark:text-ink-300">
             Loading allowlist…
           </p>
         ) : data.items.length === 0 ? (
-          <p className="p-8 text-center font-mono text-sm text-ink-400">
+          <p className="p-8 text-center font-mono text-sm text-ink-600 dark:text-ink-300">
             No numbers allowed — open mode.
           </p>
         ) : (
@@ -110,8 +110,8 @@ export function AllowlistPage() {
               {data.items.map((item) => (
                 <tr key={item.phone}>
                   <td className="font-semibold text-ink-900 dark:text-ink-100">{item.phone}</td>
-                  <td className="text-ink-400">{item.label ?? "—"}</td>
-                  <td className="text-ink-400">{item.created_at.slice(0, 10)}</td>
+                  <td className="text-ink-600 dark:text-ink-300">{item.label ?? "—"}</td>
+                  <td className="text-ink-600 dark:text-ink-300">{item.created_at.slice(0, 10)}</td>
                   <td className="text-right">
                     <button className="btn-danger !px-2 !py-1" onClick={() => onRemove(item)}>remove</button>
                   </td>

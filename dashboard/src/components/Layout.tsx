@@ -37,7 +37,7 @@ export function Layout() {
             <p className="font-display text-sm font-bold uppercase tracking-widest text-ink-900 dark:text-ink-100">
               ZapNotif
             </p>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-400">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-ink-600 dark:text-ink-300">
               dispatch console
             </p>
           </div>
@@ -53,7 +53,7 @@ export function Layout() {
                 `flex shrink-0 items-center gap-2.5 px-3 py-2 font-display text-xs font-semibold uppercase tracking-wider transition-colors ${
                   isActive
                     ? "bg-signal/10 text-ink-900 shadow-[inset_2px_0_0_var(--color-signal)] dark:text-signal"
-                    : "text-ink-400 hover:text-ink-900 dark:hover:text-ink-200"
+                    : "text-ink-600 dark:text-ink-300 hover:text-ink-900 dark:hover:text-ink-200"
                 }`
               }
             >
@@ -63,7 +63,7 @@ export function Layout() {
           ))}
         </nav>
 
-        <div className="mt-6 hidden border-t border-ink-700/40 pt-4 font-mono text-[10px] leading-relaxed text-ink-400 lg:block dark:border-ink-800">
+        <div className="mt-6 hidden border-t border-ink-700/40 pt-4 font-mono text-[10px] leading-relaxed text-ink-600 dark:text-ink-300 lg:block dark:border-ink-800">
           unofficial wa gateway
           <br />
           baileys · bun · hono
@@ -80,7 +80,7 @@ export function Layout() {
             <button className="btn-ghost !px-2.5" onClick={toggle} title="Toggle theme">
               {dark ? "☀" : "☾"}
             </button>
-            <span className="font-mono text-xs text-ink-400">
+            <span className="font-mono text-xs text-ink-600 dark:text-ink-300">
               @<span className="text-ink-900 dark:text-ink-200">{username}</span>
             </span>
             <button
@@ -100,7 +100,7 @@ export function Layout() {
         </main>
 
         <footer className="border-t border-ink-700/40 px-6 py-3 dark:border-ink-800">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-400">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-600 dark:text-ink-300">
             zapnotif — use responsibly · unofficial api · ban risk applies
           </p>
         </footer>

@@ -74,19 +74,19 @@ export function SessionPage() {
           <p className="label mb-3">Connection</p>
           <div className="flex items-center gap-4">
             <StatusBadge status={status} />
-            <p className="font-mono text-xs text-ink-400">polling every 3s</p>
+            <p className="font-mono text-xs text-ink-600 dark:text-ink-300">polling every 3s</p>
           </div>
           <dl className="mt-6 space-y-3 font-mono text-xs">
             <div className="flex justify-between border-b border-ink-700/30 pb-2 dark:border-ink-800/70">
-              <dt className="text-ink-400">transport</dt>
+              <dt className="text-ink-600 dark:text-ink-300">transport</dt>
               <dd>baileys · multi-device</dd>
             </div>
             <div className="flex justify-between border-b border-ink-700/30 pb-2 dark:border-ink-800/70">
-              <dt className="text-ink-400">session storage</dt>
+              <dt className="text-ink-600 dark:text-ink-300">session storage</dt>
               <dd>./session (multi-file)</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-ink-400">reconnect</dt>
+              <dt className="text-ink-600 dark:text-ink-300">reconnect</dt>
               <dd>automatic · 3s backoff</dd>
             </div>
           </dl>
@@ -101,7 +101,7 @@ export function SessionPage() {
           {status === "connected" ? (
             <div className="py-10 text-center">
               <p className="font-display text-4xl text-signal">✓</p>
-              <p className="mt-3 font-mono text-xs text-ink-400">
+              <p className="mt-3 font-mono text-xs text-ink-600 dark:text-ink-300">
                 Device paired — no QR needed.
                 <br />
                 Unpair to link a different number.
@@ -113,10 +113,10 @@ export function SessionPage() {
               <div className="inline-block border border-signal/40 bg-white p-3 shadow-[0_0_40px_-10px_var(--color-signal)]">
                 <img src={qrDataUrl} alt="WhatsApp pairing QR" width={260} height={260} />
               </div>
-              <p className="mt-3 font-mono text-[10px] text-ink-400">auto-refreshes while awaiting scan</p>
+              <p className="mt-3 font-mono text-[10px] text-ink-600 dark:text-ink-300">auto-refreshes while awaiting scan</p>
             </div>
           ) : (
-            <p className="pulse-dot py-10 font-mono text-xs text-ink-400">waiting for QR…</p>
+            <p className="pulse-dot py-10 font-mono text-xs text-ink-600 dark:text-ink-300">waiting for QR…</p>
           )}
         </div>
       </div>

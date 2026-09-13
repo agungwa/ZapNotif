@@ -38,7 +38,7 @@ export function LoginPage() {
             <h1 className="font-display text-lg font-bold uppercase tracking-widest text-ink-100">
               ZapNotif
             </h1>
-            <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-ink-400">
+            <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-ink-300">
               dispatch console · secure access
             </p>
           </div>
@@ -86,7 +86,7 @@ export function LoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 font-mono text-[10px] leading-relaxed text-ink-400">
+        <p className="mt-6 font-mono text-[10px] leading-relaxed text-ink-300">
           creds via ADMIN_USERNAME / ADMIN_PASSWORD env
         </p>
       </div>

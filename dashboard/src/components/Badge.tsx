@@ -9,7 +9,7 @@ const tones: Record<string, string> = {
   danger: "bg-danger/10 text-danger border-danger/40",
   amber: "bg-amber/10 text-amber border-amber/40",
   cyan: "bg-cyan/10 text-cyan border-cyan/40",
-  neutral: "bg-ink-600/10 text-ink-400 border-ink-600/40",
+  neutral: "bg-ink-600/10 text-ink-600 dark:text-ink-300 border-ink-600/40",
 };
 
 export function Badge({ tone = "neutral", pulse, children }: BadgeProps) {

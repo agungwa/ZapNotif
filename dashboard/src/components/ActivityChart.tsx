@@ -11,10 +11,10 @@ export function ActivityChart({ data }: ActivityChartProps) {
     <div>
       <div className="flex items-center gap-4 pb-3">
         <span className="label">Last 14 days</span>
-        <span className="flex items-center gap-1.5 font-mono text-[11px] text-ink-400">
+        <span className="flex items-center gap-1.5 font-mono text-[11px] text-ink-600 dark:text-ink-300">
           <span className="inline-block h-2 w-2 bg-signal-dim dark:bg-signal" /> sent
         </span>
-        <span className="flex items-center gap-1.5 font-mono text-[11px] text-ink-400">
+        <span className="flex items-center gap-1.5 font-mono text-[11px] text-ink-600 dark:text-ink-300">
           <span className="inline-block h-2 w-2 bg-danger" /> failed
         </span>
       </div>
@@ -40,7 +40,7 @@ export function ActivityChart({ data }: ActivityChartProps) {
         })}
         <line x1="0" x2="100" y1="36" y2="36" className="stroke-ink-600" strokeWidth="0.25" />
       </svg>
-      <div className="flex justify-between font-mono text-[9px] text-ink-400">
+      <div className="flex justify-between font-mono text-[9px] text-ink-600 dark:text-ink-300">
         <span>{data[0]?.date.slice(5)}</span>
         <span>{data[data.length - 1]?.date.slice(5)}</span>
       </div>

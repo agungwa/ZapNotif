@@ -17,6 +17,7 @@
   --color-ink-400: #74849a;
   --color-ink-300: #9aa8ba;
   --color-ink-200: #c2ccda;
+  --color-ink-100: #e6ebf2;
 
   /* Paper (light surfaces) */
   --color-paper-50: #f5f2ea;
@@ -62,7 +63,7 @@ body {
 
 /* Uppercase micro label */
 .label {
-  @apply font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-400;
+  @apply font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-600 dark:text-ink-300;
 }
 
 /* Button */
@@ -96,7 +97,7 @@ body {
   @apply w-full font-mono text-[13px];
 }
 .data-table thead th {
-  @apply font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-400
+  @apply font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-600 dark:text-ink-300
     text-left border-b border-ink-700/60 dark:border-ink-700 px-4 py-2.5;
 }
 .data-table tbody td {

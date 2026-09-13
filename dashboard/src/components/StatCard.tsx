@@ -21,7 +21,7 @@ export function StatCard({ label, value, hint, accent = "signal" }: StatCardProp
       />
       <p className="label">{label}</p>
       <p className={`mt-2 font-mono text-3xl font-semibold ${accents[accent]}`}>{value}</p>
-      {hint && <p className="mt-1 font-mono text-[11px] text-ink-400">{hint}</p>}
+      {hint && <p className="mt-1 font-mono text-[11px] text-ink-600 dark:text-ink-300">{hint}</p>}
     </div>
   );
 }
