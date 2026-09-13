@@ -1,34 +1,60 @@
 import { Hono } from "hono";
+import { existsSync } from "node:fs";
+import { serveStatic } from "hono/bun";
 import { TemplateStore } from "./store/template-store.ts";
+import { MessageStore } from "./store/message-store.ts";
 import { WhatsappClient } from "./services/whatsapp-client.ts";
 import { createWhatsappRoutes } from "./routes/whatsapp.routes.ts";
+import { createAuthRoutes } from "./routes/auth.routes.ts";
+import { createDashboardRoutes } from "./routes/dashboard.routes.ts";
 
 const PORT = Number(process.env.PORT ?? 3000);
+const DASHBOARD_DIST = "./dashboard/dist";
+
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
+  console.warn(
+    "[zapnotif] ADMIN_USERNAME / ADMIN_PASSWORD not set — dashboard login will reject all requests. Set them in .env",
+  );
+}
 
 const templates = new TemplateStore();
 await templates.load();
+
+const messages = new MessageStore();
 
 const whatsapp = new WhatsappClient();
 await whatsapp.start();
 
 const app = new Hono();
 
+// --- Public API (Postman-compatible contract) ---
 app.get("/v1/health", (c) =>
   c.json({ status: "ok", whatsapp: whatsapp.getStatus() }),
 );
 
-// Convenience endpoints for pairing the unofficial session
-app.get("/v1/whatsapp/session/status", (c) => c.json({ status: whatsapp.getStatus() }));
-app.get("/v1/whatsapp/session/qr", (c) => {
-  const qr = whatsapp.getQr();
-  if (!qr) return c.json({ message: "No QR available. Session may already be paired." }, 404);
-  return c.json({ qr });
-});
-
 app.route(
   "/v1/whatsapp",
-  createWhatsappRoutes({ templates, whatsapp }),
+  createWhatsappRoutes({ templates, whatsapp, messages }),
 );
+
+// --- Dashboard API (cookie-authenticated) ---
+app.route("/api/auth", createAuthRoutes());
+app.route("/api", createDashboardRoutes({ templates, messages, whatsapp }));
+
+// --- Dashboard SPA ---
+if (existsSync(DASHBOARD_DIST)) {
+  app.use("*", serveStatic({ root: DASHBOARD_DIST }));
+  // SPA fallback: unknown GET paths serve index.html
+  app.get("*", async (c) => {
+    const index = Bun.file(`${DASHBOARD_DIST}/index.html`);
+    if (await index.exists()) {
+      return c.html(await index.text());
+    }
+    return c.notFound();
+  });
+} else {
+  console.warn("[zapnotif] dashboard/dist not found — run `bun run build:dashboard` to serve the UI.");
+}
 
 Bun.serve({ fetch: app.fetch, port: PORT });
 console.log(`[zapnotif] listening on http://localhost:${PORT}`);

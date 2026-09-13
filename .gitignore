@@ -4,6 +4,9 @@ node_modules/
 # WhatsApp session (contains credentials — never commit)
 session/
 
+# SQLite database + WAL files
+data/
+
 # Environment
 .env
 .env.*
@@ -16,3 +19,6 @@ session/
 
 # Bun debug
 *.lockb.bak
+
+# Built dashboard assets
+dashboard/dist/
