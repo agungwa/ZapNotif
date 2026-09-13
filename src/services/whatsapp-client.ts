@@ -4,7 +4,7 @@ import makeWASocket, {
   useMultiFileAuthState,
   type WASocket,
 } from "@whiskeysockets/baileys";
-import { mkdir } from "node:fs/promises";
+import { mkdir, rm } from "node:fs/promises";
 import qrcode from "qrcode-terminal";
 
 const SESSION_DIR = process.env.SESSION_DIR ?? "./session";
@@ -99,6 +99,28 @@ export class WhatsappClient {
     const digits = phoneNumber.replace(/\D/g, "");
     const normalized = digits.startsWith("0") ? `62${digits.slice(1)}` : digits;
     return `${normalized}@s.whatsapp.net`;
+  }
+
+  /** Unpair the device: server logout, clear session files, reconnect (fresh QR). */
+  async unpair(): Promise<void> {
+    if (this.socket) {
+      try {
+        await this.socket.logout("Unpaired via dashboard");
+      } catch (err) {
+        // Logout can fail if already disconnected — session files still need clearing
+        console.warn("[whatsapp] logout call failed during unpair:", err);
+      }
+      try {
+        this.socket.end(undefined);
+      } catch {
+        // ignore
+      }
+    }
+    this.socket = null;
+    this.status = "disconnected";
+    this.latestQr = null;
+    await rm(SESSION_DIR, { recursive: true, force: true });
+    await this.connect();
   }
 
   async sendText(phoneNumber: string, text: string): Promise<{ messageId: string }> {

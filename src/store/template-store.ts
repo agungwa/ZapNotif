@@ -9,6 +9,18 @@ function parseStore(raw: string): WhatsappTemplate[] {
   return parsed as WhatsappTemplate[];
 }
 
+export interface TemplateInput {
+  name: string;
+  language: string;
+  body: string;
+  category?: TemplateCategory;
+  status?: TemplateStatus;
+}
+
+function deriveVariables(body: string): string[] {
+  return [...new Set([...body.matchAll(/\{\{(\d+)\}\}/g)].map((m) => m[1]!))].sort();
+}
+
 export class TemplateStore {
   private templates: WhatsappTemplate[] = [];
 
@@ -28,15 +40,7 @@ export class TemplateStore {
     return this.templates.find((t) => t.name === name);
   }
 
-  async create(input: {
-    name: string;
-    language: string;
-    body: string;
-    category?: TemplateCategory;
-    status?: TemplateStatus;
-  }): Promise<WhatsappTemplate> {
-    // Derive positional variables from {{n}} placeholders in the body
-    const variables = [...input.body.matchAll(/\{\{(\d+)\}\}/g)].map((m) => m[1]!);
+  async create(input: TemplateInput): Promise<WhatsappTemplate> {
     const template: WhatsappTemplate = {
       id: crypto.randomUUID(),
       name: input.name,
@@ -44,12 +48,33 @@ export class TemplateStore {
       body: input.body,
       status: input.status ?? "APPROVED",
       category: input.category ?? "MARKETING",
-      variables: [...new Set(variables)].sort(),
+      variables: deriveVariables(input.body),
       createdAt: new Date().toISOString(),
     };
     this.templates.push(template);
     await this.persist();
     return template;
+  }
+
+  async update(id: string, input: TemplateInput): Promise<WhatsappTemplate | undefined> {
+    const template = this.findById(id);
+    if (!template) return undefined;
+    template.name = input.name;
+    template.language = input.language;
+    template.body = input.body;
+    if (input.category) template.category = input.category;
+    if (input.status) template.status = input.status;
+    template.variables = deriveVariables(input.body);
+    await this.persist();
+    return template;
+  }
+
+  async remove(id: string): Promise<boolean> {
+    const before = this.templates.length;
+    this.templates = this.templates.filter((t) => t.id !== id);
+    if (this.templates.length === before) return false;
+    await this.persist();
+    return true;
   }
 
   private async persist(): Promise<void> {

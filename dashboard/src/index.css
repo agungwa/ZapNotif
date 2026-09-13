@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Chakra Petch", sans-serif;
+  --font-sans: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Ink (dark surfaces) */
+  --color-ink-950: #0a0d10;
+  --color-ink-900: #10151b;
+  --color-ink-850: #151c24;
+  --color-ink-800: #1b242e;
+  --color-ink-700: #26313d;
+  --color-ink-600: #38465a;
+  --color-ink-400: #74849a;
+  --color-ink-300: #9aa8ba;
+  --color-ink-200: #c2ccda;
+
+  /* Paper (light surfaces) */
+  --color-paper-50: #f5f2ea;
+  --color-paper-100: #ece8dd;
+  --color-paper-200: #ddd8c9;
+
+  /* Signal */
+  --color-signal: #a3f743;
+  --color-signal-dim: #5c9420;
+  --color-amber: #ffb224;
+  --color-danger: #ff5c5c;
+  --color-cyan: #5ce1e6;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  @apply bg-paper-50 text-ink-900 font-sans antialiased;
+}
+
+.dark body {
+  @apply bg-ink-950 text-ink-200;
+}
+
+/* Blueprint grid backdrop */
+.grid-backdrop {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, currentColor 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, currentColor 5%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Panel: the workhorse surface */
+.panel {
+  @apply border border-ink-700/60 dark:border-ink-800 bg-white dark:bg-ink-900;
+}
+
+.panel-hover {
+  @apply transition-colors hover:border-signal-dim/60 dark:hover:border-signal/30;
+}
+
+/* Uppercase micro label */
+.label {
+  @apply font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-400;
+}
+
+/* Button */
+.btn,
+.btn-primary,
+.btn-ghost,
+.btn-danger {
+  @apply font-display inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider
+    transition-all active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40;
+}
+.btn-primary {
+  @apply bg-signal text-ink-950 hover:brightness-110 shadow-[0_0_20px_-6px_var(--color-signal)];
+}
+.btn-ghost {
+  @apply border border-ink-700/60 dark:border-ink-700 text-ink-600 dark:text-ink-300
+    hover:border-signal-dim hover:text-ink-900 dark:hover:text-signal dark:hover:border-signal/50;
+}
+.btn-danger {
+  @apply bg-danger/90 text-white hover:bg-danger;
+}
+
+/* Input */
+.input {
+  @apply w-full bg-white dark:bg-ink-850 border border-ink-700/60 dark:border-ink-700 px-3 py-2
+    font-mono text-sm text-ink-900 dark:text-ink-200 placeholder:text-ink-400/60
+    focus:border-signal-dim dark:focus:border-signal/60 focus:outline-none;
+}
+
+/* Table */
+.data-table {
+  @apply w-full font-mono text-[13px];
+}
+.data-table thead th {
+  @apply font-display text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-400
+    text-left border-b border-ink-700/60 dark:border-ink-700 px-4 py-2.5;
+}
+.data-table tbody td {
+  @apply border-b border-ink-700/30 dark:border-ink-800/70 px-4 py-2.5;
+}
+.data-table tbody tr {
+  @apply transition-colors hover:bg-signal/5;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 0;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Page entrance: staggered reveal */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rise-1 { animation-delay: 0.04s; }
+.rise-2 { animation-delay: 0.08s; }
+.rise-3 { animation-delay: 0.12s; }
+
+/* Status pulse */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.pulse-dot {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
