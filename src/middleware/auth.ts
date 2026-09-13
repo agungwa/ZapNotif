@@ -20,8 +20,8 @@ function secret(): string {
 }
 let secretWarned = false;
 
-function b64url(input: string | Buffer): string {
-  return Buffer.from(input).toString("base64url");
+function b64url(input: string): string {
+  return Buffer.from(input, "utf8").toString("base64url");
 }
 
 function sign(payload: string): string {
